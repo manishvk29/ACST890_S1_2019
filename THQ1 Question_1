@@ -1,0 +1,15 @@
+# C=coupon payment, F= face value at maturity, n= total number of coupon payments
+# t_j=maturity time in yearly, y= interest rates in percentage and y has n vector elements
+# if there are 4 coupons payments then there will be 4 interest rates and y should be a vector with 4 elements.i.e y<-c(y1,y2,y3,y4)
+bond_price<-function(C,F,n,y){
+  P<-0
+  store<-rep(NA,n)        #creating a new variable with all elements "NA" which will be inturn used to store/replicate data from each 'for' loop
+  for (j in 1:n){           # j= no of j^th coupon payments,
+    t_j<-j/2    #converting time to yearly i.e 1st payment (j=1) = 0.5 year, 2nd payment (j=2) = 1 year
+    store[j]<-C*exp((-y[j]/100)*t_j)+P      # stores data to the variable 'restore', y[j]= j^th element of y given vector
+  }
+  summation_coupons<-sum(store)  # summation of all elements of 'store' variable which is the value for 1st term of the formula
+  face_value_term<-F*exp((-y[n]/100)*(n/2))     # This is 2nd term of the formula and y[n]= interest rate at last (n) payment or maturity time in years
+  bond_price<-summation_coupons+face_value_term     
+  return(data.frame(price_of_bond=bond_price))      # returning bond price to the function which prints price of bond = ****
+}
