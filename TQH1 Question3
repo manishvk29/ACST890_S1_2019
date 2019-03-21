@@ -1,0 +1,36 @@
+getwd()  # to find the current working directory of R
+# copy the given csv file at this current working directory of R
+dataset<-read.csv("singapore.economy.csv", TRUE,",")   # reading the csv file and naming it "dataset"
+omitted_dataset<-na.omit(dataset)             #excluding all records that contains NA
+
+# storing each variable from the data
+time<-omitted_dataset$time
+gdp<-omitted_dataset$gdp
+exp<-omitted_dataset$exp
+period<-omitted_dataset$period
+epy<-omitted_dataset$epy
+crd<-omitted_dataset$crd
+hpr<-omitted_dataset$hpr
+gdpus<-omitted_dataset$gdpus
+oil<-omitted_dataset$oil
+bci<-omitted_dataset$bci
+
+# plotting gdp vs time, labelling axes
+plot(gdp,time,xlab="Time",ylab="GDP(%)") 
+title("Singapore GDP growth")
+
+#scatterplot except time( 1st coloumn) and period( 2nd column)
+pairs(omitted_dataset[3:9])
+
+# simple regression fit
+simple_fit<-lm(gdp~exp,data=omitted_dataset)
+summary(simple_fit)
+# # F statitic value is greater than 1 i.e 43.66 so gdp and exp are highly related. RSE=1.693 which is small i.e model fits the data well
+
+#multiple refression fit
+multiple_fit<-lm(gdp~exp+epg+hpr+oil+gdpus+crd,data=omitted_dataset)
+summary(multiple_fit)
+# F statitic value is greater than 1 i.e 10.17 so there are some relations between the response and predictors, RSE=1.628, this multiple model fits data well
+
+
+
